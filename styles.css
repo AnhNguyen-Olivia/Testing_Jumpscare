@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: black;
+    background-size: cover;
+}
+
+.container {
+    margin-top: 50px;
+    position: relative;
+    z-index: 1;
+}
+
+#jumpscare {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: none; /* Initially hide the jumpscare */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    overflow: hidden; /* Prevent any overflow */
+}
+
+#jumpscare img {
+    width: auto;
+    height: 100%; /* Make sure the image covers the height */
+    max-height: 100%; /* Constrain image to viewport size */
+    max-width: 100%;  /* Constrain image to viewport width */
+    animation: shake-image 0.5s infinite; /* Apply shake to the image */
+}
+
+.hidden {
+    display: none; /* Make sure the hidden class hides elements */
+}
+
+p {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Glitch effect: Flashing background */
+.glitch {
+    animation: flicker 0.1s infinite;
+}
+
+@keyframes flicker {
+    0% { background-color: red; }
+    25% { background-color: greenyellow; }
+    50% { background-color: white; }
+    75% { background-color: red; }
+    100% { background-color: greenyellow; }
+}
+
+/* Shake effect for the jumpscare image without resizing */
+@keyframes shake-image {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-10px, 5px); }
+    50% { transform: translate(10px, -5px); }
+    75% { transform: translate(-10px, 5px); }
+    100% { transform: translate(0, 0); }
+}
