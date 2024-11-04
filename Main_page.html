@@ -3,24 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escape Room</title>
+    <title>Escape Room - Jumpscare</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Enter the Code to Proceed</h1>
+        <h1>E S C A P E &nbsp; R O O M</h1>
+        <p id="feedback"></p>
+
         <form id="codeForm">
-            <input type="password" id="password" placeholder="Enter Code" />
+            <label for="password">Enter the Code... if you dare</label>
+            <input type="password" id="password" required>
             <button type="submit">Submit</button>
         </form>
-        <p id="feedback"></p> <!-- To show feedback on incorrect tries -->
-        <!-- Hidden jumpscare -->
+
+        <!-- Jumpscare Image (Initially Hidden) -->
         <div id="jumpscare" class="hidden">
-            <img src="scary-image.jpeg" alt="Scary" />
-            <audio id="screamSound" src="five-nights-at-freddys-full-scream-sound_2.mp3"></audio>
+            <img src="jumpscareImage.jpg" alt="Jumpscare">
         </div>
+
+        <!-- Sound Effects -->
+        <audio id="screamSound" src="src_assets_jumpscareSound.mp3"></audio>
+    </div>
+
+    <!-- Add loading screen element -->
+    <div id="loadingScreen">
+        <div class="loading-text">Analyzing your password...</div>
+        <div class="loading-spinner"></div>
     </div>
 
     <script src="script.js"></script>
+
 </body>
 </html>
