@@ -1,163 +1,336 @@
 body {
+  font-family: 'Courier New', monospace;
+  text-align: center;
+  background-color: black;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  color: #0f0;
+  overflow: hidden;
+}
+
+.container {
+  margin-top: 50px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Updated Countdown Timer Styles */
+.countdown-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.countdown-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+.countdown-timer {
+    font-size: 72px;
+    color: #0f0;
+    text-shadow: 0 0 20px #0f0;
+    font-weight: bold;
+    position: relative;
+    animation: pulse 2s infinite;
+}
+
+.countdown-message {
+    font-size: 24px;
+    color: #0f0;
+    text-shadow: 0 0 5px #0f0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: pulse 2s infinite;
+    margin-top: 20px;
     font-family: 'Courier New', monospace;
-    text-align: center;
-    background-color: black;
-    background-size: cover;
+}
+
+.countdown-ring {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    color: #0f0;
-    overflow: hidden; /* Added to remove scroll bar */
-  }
-  
-  .container {
-    margin-top: 50px;
-    position: relative;
-    z-index: 1;
-    text-align: center;
-  }
-  
-  #password {
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid #0f0;
-    color: #0f0;
-    padding: 8px;
-    margin: 10px;
-    font-family: 'Courier New', monospace;
-    text-shadow: 0 0 5px #0f0;
-  }
-  
-  button {
-    background: rgba(0, 0, 0, 0.8);
-    color: #0f0;
-    border: 1px solid #0f0;
-    padding: 8px 15px;
-    cursor: pointer;
-    margin: 5px;
-    font-family: 'Courier New', monospace;
-    text-shadow: 0 0 5px #0f0;
-    transition: all 0.3s ease;
-  }
-  
-  button:hover {
-    background: #0f0;
-    color: #000;
-    box-shadow: 0 0 10px #0f0;
-  }
-  
-  #jumpscare {
-    position: fixed;
-    top: 0;
-    left: 0;
+}
+
+.countdown-ring::before {
+    content: '';
+    position: absolute;
     width: 100%;
     height: 100%;
-    background-color: black;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    overflow: hidden; /* Added to remove scroll bar */
-  }
-  
-  #jumpscare img {
-    width: auto;
-    height: auto;
-    max-height: 100%;
-    max-width: 100%;
-    animation: shake-image 0.5s infinite;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  p {
-    color: #0f0;
-    font-weight: bold;
-    margin-top: 20px;
-    text-shadow: 0 0 5px #0f0;
-  }
-  
-  #maze-container {
-    display: none;
-    margin: 20px;
-    border: 1px solid #0f0;
-    padding: 20px;
-    box-shadow: 0 0 10px #0f0;
-  }
-  
-  #maze {
-    border: 1px solid #0f0;
-    margin: 20px auto;
-    box-shadow: 0 0 15px #0f0;
-  }
-  
-  /* Loading screen styles */
-  #loadingScreen {
-    position: fixed;
-    top: 0;
-    left: 0;
+    border-radius: 50%;
+    border: 4px solid rgba(0, 255, 0, 0.2);
+    box-sizing: border-box;
+}
+
+.countdown-ring::after {
+    content: '';
+    position: absolute;
     width: 100%;
     height: 100%;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    border-top: 4px solid #0f0;
+    box-sizing: border-box;
+    animation: countdown-spin 1s linear infinite;
+}
+
+/* Ensure the body class works correctly with countdown */
+body.lockdown {
     background-color: black;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9998;
-    overflow: hidden; /* Added to remove scroll bar */
-  }
-  
-  .loading-text {
-    color: #0f0;
-    font-size: 24px;
-    text-shadow: 0 0 5px #0f0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  /* Show loading text only when parent is visible */
-  #loadingScreen[style*="display: flex"] .loading-text {
-    opacity: 1;
-  }
-  
-  /* Glitch effect: Flashing background */
-  .glitch {
-    animation: flicker 0.1s infinite;
-  }
-  
-  @keyframes flicker {
-    0% { background-color: red; }
-    25% { background-color: #0f0; }
-    50% { background-color: white; }
-    75% { background-color: red; }
-    100% { background-color: #0f0; }
-  }
-  
-  /* Shake effect for the jumpscare image */
-  @keyframes shake-image {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(-10px, 5px); }
-    50% { transform: translate(10px, -5px); }
-    75% { transform: translate(-10px, 5px); }
-    100% { transform: translate(0, 0); }
-  }
-  
-  /* Matrix-style text glow effect */
-  h2 {
-    color: #0f0;
-    text-shadow: 0 0 10px #0f0;
-    margin-bottom: 20px;
-  }
-  
-  /* Additional shake animation for jumpscares */
-  .shake {
-    animation: shake 0.5s linear infinite;
-  }
-  
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-  }
+}
+
+/* Keep the background black during countdown */
+body.lockdown .countdown-container {
+    background-color: black;
+}
+
+/* Animation keyframes */
+@keyframes countdown-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#password {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #0f0;
+  color: #0f0;
+  padding: 8px;
+  margin: 10px;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 5px #0f0;
+}
+
+button {
+  background: rgba(0, 0, 0, 0.8);
+  color: #0f0;
+  border: 1px solid #0f0;
+  padding: 8px 15px;
+  cursor: pointer;
+  margin: 5px;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 5px #0f0;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #0f0;
+  color: #000;
+  box-shadow: 0 0 10px #0f0;
+}
+
+/* Improved Countdown Timer Styles */
+.countdown-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 10000;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.countdown-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+.countdown-timer {
+  font-size: 72px;
+  color: #0f0;
+  text-shadow: 0 0 20px #0f0;
+  font-weight: bold;
+  position: relative;
+  animation: pulse 2s infinite;
+}
+
+.countdown-ring {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.countdown-ring::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid rgba(0, 255, 0, 0.2);
+  box-sizing: border-box;
+}
+
+.countdown-ring::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top: 4px solid #0f0;
+  box-sizing: border-box;
+  animation: countdown-spin 1s linear infinite;
+}
+
+@keyframes countdown-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.countdown-message {
+  font-size: 24px;
+  color: #0f0;
+  text-shadow: 0 0 5px #0f0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  animation: pulse 2s infinite;
+  margin-top: 20px;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* Rest of your existing styles... */
+#jumpscare {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+#jumpscare img {
+  width: auto;
+  height: auto;
+  max-height: 100%;
+  max-width: 100%;
+  animation: shake-image 0.5s infinite;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Loading screen styles */
+#loadingScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+  overflow: hidden;
+}
+
+.loading-text {
+  color: #0f0;
+  font-size: 24px;
+  text-shadow: 0 0 5px #0f0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#loadingScreen[style*="display: flex"] .loading-text {
+  opacity: 1;
+}
+
+/* Your existing animations... */
+@keyframes flicker {
+  0% { background-color: red; }
+  25% { background-color: #0f0; }
+  50% { background-color: white; }
+  75% { background-color: red; }
+  100% { background-color: #0f0; }
+}
+
+@keyframes shake-image {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-10px, 5px); }
+  50% { transform: translate(10px, -5px); }
+  75% { transform: translate(-10px, 5px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Disabled states */
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Additional styles for feedback messages */
+#feedback {
+  font-size: 18px;
+  color: #0f0;
+  text-shadow: 0 0 5px #0f0;
+  margin-top: 20px;
+  font-weight: bold;
+  min-height: 24px;
+}
