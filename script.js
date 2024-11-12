@@ -162,9 +162,9 @@ function triggerJumpscareSequence() {
         }
         
         document.getElementById('password').value = '';
-        stopCreepyMessages();
     }, JUMPSCARE_DURATION);
 }
+
 
 function startGlitchEffect() {
     const body = document.body;
