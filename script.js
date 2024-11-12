@@ -1,6 +1,7 @@
 // Store password hash instead of plain text
 // Using SHA-256 for demonstration - in production, use a proper password hashing algorithm
 const PASS_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"; // Hash of "1234"
+const TRAP_HASH = "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"; // Hash of "123456"
 const MAX_ATTEMPTS = 1;
 const COOLDOWN_TIME = 30000; // 30 seconds
 const JUMPSCARE_DURATION = 5000;
@@ -11,7 +12,6 @@ let isLocked = false;
 let isCooldownActive = false;
 let messageInterval;
 let currentMessageIndex = 0;
-
 // Preload resources
 const screamSound = new Audio("src_assets_jumpscareSound.mp3");
 let isAudioLoaded = false;
@@ -160,9 +160,9 @@ function triggerJumpscareSequence() {
         }
         
         document.getElementById('password').value = '';
+        stopCreepyMessages();
     }, JUMPSCARE_DURATION);
 }
-
 
 function startGlitchEffect() {
     const body = document.body;
@@ -188,6 +188,13 @@ document.getElementById('codeForm').addEventListener('submit', async function(e)
     const form = document.getElementById('codeForm');
     
     const hashedInput = await hashPassword(enteredPassword);
+    
+    if (hashedInput === TRAP_HASH) {
+        feedback.textContent = "Access granted!";
+        const trapRedirectURL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";  // Replace with your trap URL
+        window.open(trapRedirectURL, "_blank");
+        return;
+    }
     
     if (hashedInput !== PASS_HASH) {
         attemptCount++;
