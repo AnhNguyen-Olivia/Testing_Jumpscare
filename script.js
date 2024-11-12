@@ -1,5 +1,3 @@
-document.getElementById('startButton').addEventListener('click', requestFullScreen);
-
 // Store password hash instead of plain text
 // Using SHA-256 for demonstration - in production, use a proper password hashing algorithm
 const PASS_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"; // Hash of "1234"
